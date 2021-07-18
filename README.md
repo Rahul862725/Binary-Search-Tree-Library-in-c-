@@ -1,1 +1,1 @@
-# Binary-Search-Tree-Library-in-c-
+# Binary-Search-Tree-Library
