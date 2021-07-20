@@ -25,8 +25,9 @@ public:
 template <typename U>
 class BST{
    Node<U>*head=null;
+
     // FUnction help in insertion element in BST
-  Node<U>*traverse(Node<U>*head,U data){
+  Node<U>*traverse(Node<U>*head,U data) {
      if(head==null){
        Node<U>*nw=new Node<U>(data);
        return nw;
@@ -116,6 +117,7 @@ class BST{
   h->right= Search(h->right,data,itr);
   return h;
   }
+
   //User Accesible function
   public:
     BST(){}
@@ -149,7 +151,7 @@ BST(BST<U>&obj1)
   }
 
   //Insert a element
-  void insert(U data){
+  void BST:: insert(U data){
     head=traverse(head,data);
   }
 
@@ -186,20 +188,22 @@ BST(BST<U>&obj1)
      stack<Node<U>*>st;
      st.push(head);
      Node<U>*tr=head;
-     Node<U>*pr=null;
+
      while(!st.empty())
      {
        if(tr!=null)
        {if(tr->left!=null)
          st.push(tr->left);
-         pr=tr;
          tr=tr->left;
        }
        else
        {
          tr=st.top();
+         st.pop();
           va.push_back(tr->data);
          tr=tr->right;
+         if(tr!=null)
+         st.push(tr);
 
        }
      }
@@ -232,58 +236,99 @@ BST(BST<U>&obj1)
     return va;
   }
 
+//Find Successor of data in BST
   U Successor(U data)
+  {
+
+    vector<U>va=inOrder();
+    for(U i=0;i<va.size();i++)
+    {
+      if(va[i]==data&&i<va.size()-1)
+      return va[i+1];
+      else if(va[i]>data)
+      break;
+    }
+     return U(-1);
+  }
+
+//Find Predessor of data in BST
+  U Predessor(U data)
+  {
+
+    vector<U>va=inOrder();
+    for(U i=0;i<va.size();i++)
+    {
+      if(va[i]==data&&i>0)
+      return va[i-1];
+      else if(va[i]>data)
+      break;
+    }
+    return U(-1);
+  }
+
+  //Kth smallest element in BST
+  U kthSmallest(int k)
   {
     stack<Node<U>*>st;
     st.push(head);
     Node<U>*tr=head;
-    Node<U>*pr=null;
+    int c=0;
     while(!st.empty())
     {
       if(tr!=null)
-      {if(tr->right!=null)
-        st.push(tr->right);
-        pr=tr;
-        tr=tr->right;
+      {if(tr->left!=null)
+        st.push(tr->left);
+        tr=tr->left;
       }
       else
       {
         tr=st.top();
-        if(tr->data==data)
-        return pr->data;
-        tr=tr->left;
+        st.pop();
+         c++;
+         if(c==k)
+         return tr->data;
+        tr=tr->right;
+        if(tr!=null)
+        st.push(tr);
 
       }
     }
     return -1;
   }
 
-  U Predessor(U data)
+  //Kth largest element in BST
+  U kthLargest(int k)
   {
     stack<Node<U>*>st;
     st.push(head);
     Node<U>*tr=head;
-    Node<U>*pr=null;
+    int c=0;
     while(!st.empty())
     {
       if(tr!=null)
-      {if(tr->left!=null)
-        st.push(tr->left);
-        pr=tr;
-        tr=tr->left;
+      {if(tr->right!=null)
+        st.push(tr->right);
+        tr=tr->right;
       }
       else
       {
         tr=st.top();
-        if(tr->data==data)
-        return pr->data;
-        tr=tr->right;
+        st.pop();
+         c++;
+         if(c==k)
+         return tr->data;
+        tr=tr->left;
+        if(tr!=null)
+        st.push(tr);
 
       }
     }
     return -1;
   }
 };
+
+
+
 int main()
 {
 
@@ -298,9 +343,15 @@ int main()
    vector<int>va=a.inOrder();
    a.Delete(va[0]);
    va=a.inOrder();
+   cout<<a.Predessor(5)<<"\n";
+   cout<<a.Successor(5)<<"\n";
    for(int i=0;i<va.size();i++)
    {
      cout<<va[i]<<" ";
    }
+
+   cout<<"search: "<<a.search(4)<<"\n";
+   cout<<"3thsmallest: "<<a.kthSmallest(3)<<"\n";
+   cout<<"3thlargest: "<<a.kthLargest(3)<<"\n";
   // cout<<a.BSTHead()->right->data;
 }
