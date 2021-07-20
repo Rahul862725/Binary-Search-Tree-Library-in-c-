@@ -326,32 +326,3 @@ BST(BST<U>&obj1)
     return -1;
   }
 };
-
-
-
-int main()
-{
-
-  int n;
-  cin>>n;
-  int ar[n];
-  for(int i=0;i<n;i++)
-  {
-    cin>>ar[i];
-  }
-   BST<int>a(n,ar);
-   vector<int>va=a.inOrder();
-   a.Delete(va[0]);
-   va=a.inOrder();
-   cout<<a.Predessor(5)<<"\n";
-   cout<<a.Successor(5)<<"\n";
-   for(int i=0;i<va.size();i++)
-   {
-     cout<<va[i]<<" ";
-   }
-
-   cout<<"search: "<<a.search(4)<<"\n";
-   cout<<"3thsmallest: "<<a.kthSmallest(3)<<"\n";
-   cout<<"3thlargest: "<<a.kthLargest(3)<<"\n";
-  // cout<<a.BSTHead()->right->data;
-}
